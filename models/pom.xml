@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <groupId>com.example</groupId>
+        <artifactId>liuqlProject</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.example</groupId>
+    <artifactId>models</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>models</name>
+    <description>models</description>
+    <modules>
+        <module>webAPP</module>
+        <!--        <module>ruoyi-gen</module>-->
+        <!--        <module>ruoyi-job</module>-->
+        <!--        <module>ruoyi-file</module>-->
+    </modules>
+    <properties>
+
+    </properties>
+
+    <packaging>pom</packaging>
+
+
+</project>
