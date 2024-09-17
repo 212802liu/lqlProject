@@ -35,7 +35,3 @@ spring:
             - Path=/webapi/** # path 按照路径进行匹配，只要以/order-service/开头就符合规则
 #          filters:
 #            - StripPrefix=1 # 过滤器，去除请求的前缀路径，StripPrefix=1 表示去除请求路径的第一个路径片段
-security:
-  captcha:
-    enabled: true
-    type: char
