@@ -16,6 +16,7 @@
         <spring-cloud.version>2021.0.5</spring-cloud.version>
         <fastjson.version>2.0.43</fastjson.version>
         <kaptcha.version>2.3.3</kaptcha.version>
+        <jjwt.version>0.9.1</jjwt.version>
 
 
 
@@ -48,6 +49,11 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jjwt.version}</version>
         </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>
