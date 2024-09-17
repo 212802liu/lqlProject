@@ -24,6 +24,7 @@
         <module>models</module>
         <module>gateway</module>
         <module>common</module>
+        <module>auth</module>
     </modules>
     <dependencies>
         <!-- SpringCloud 微服务 -->
