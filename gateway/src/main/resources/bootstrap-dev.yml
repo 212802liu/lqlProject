@@ -22,6 +22,8 @@ spring:
         namespace: myDev
         # 文件格式
         file-extension: yml
+
+
     gateway:
       discovery:
         locator:

@@ -1,0 +1,10 @@
+# Spring Boot 2.7??????/META-INF/spring.factories??????Spring Boot 3????/META-INF/spring.factories????
+
+# ??????????????
+
+# /META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports
+
+
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.example.common.security.handler.GlobalExceptionHandler,\
+com.example.common.redis.service.RedisClient

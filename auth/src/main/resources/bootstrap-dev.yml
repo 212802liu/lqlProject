@@ -26,8 +26,8 @@ spring:
         namespace: myDev
         # 文件格式
         file-extension: yaml
-      extConfig:
-        - dataId: ajxtDB-mysql.yml
-          group: dev
-          refresh: true
+        extension-configs:
+          - dataId: redis-dev.yml
+            group: DEFAULT_GROUP
+            refresh: true
 

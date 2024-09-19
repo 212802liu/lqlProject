@@ -4,8 +4,10 @@ import cn.hutool.core.codec.Base64;
 import cn.hutool.core.lang.UUID;
 import com.example.auth.conf.properties.CaptchaProperties;
 import com.example.auth.service.ValidateCodeService;
+import com.example.common.core.constant.CommonRedisConstants;
 import com.example.common.core.exception.LqlCommonException;
 import com.example.common.core.web.AjaxResult;
+import com.example.common.redis.service.RedisClient;
 import com.google.code.kaptcha.Producer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.kafka.KafkaProperties;
@@ -33,6 +35,9 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
 
     @Resource(name = "captchaProducer")
     private Producer captchaProducer;
+
+    @Autowired
+    private RedisClient redisClient;
 
     @Override
     public AjaxResult createCaptcha() throws IOException, LqlCommonException {
@@ -74,7 +79,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
 
         // 验证码 保存redis
         String  uuid = UUID.fastUUID().toString();
-
+        redisClient.set(CommonRedisConstants.PREFIX_REDIS_CAPTCHA+uuid,code);
         // 返回成功
         ajax.put("uuid", uuid);
         ajax.put("img", Base64.encode(os.toByteArray()));

@@ -1,10 +1,13 @@
 package com.example.gateway.filter;
 
 import cn.hutool.core.util.StrUtil;
+import com.example.common.core.constant.CommonRedisConstants;
 import com.example.common.core.constant.TokenConstants;
 import com.example.common.core.util.JwtUtils;
+import com.example.common.redis.service.RedisClient;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Constants;
@@ -35,6 +38,9 @@ public class AuthFilter implements GlobalFilter,Ordered {
      * todo : 配置注入
      */
     private List<String> whiteIgnore;
+
+    @Autowired
+    private RedisClient redisClient;
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
@@ -55,7 +61,9 @@ public class AuthFilter implements GlobalFilter,Ordered {
         }
         String userkey = JwtUtils.getUserKey(claims);
         // 从redis 获取信息，对比
-        // redisService.hasKey(getTokenKey(userkey));
+        if (redisClient.hasKey(CommonRedisConstants.PREFIX_REDIS_TOKEN+token)) {
+
+        }
         String userid = JwtUtils.getUserId(claims);
         String username = JwtUtils.getUserName(claims);
 

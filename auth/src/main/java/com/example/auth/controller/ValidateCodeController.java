@@ -1,9 +1,13 @@
 package com.example.auth.controller;
 
+import com.example.auth.conf.properties.CaptchaProperties;
 import com.example.auth.service.ValidateCodeService;
+import com.example.common.core.constant.TokenConstants;
 import com.example.common.core.exception.LqlCommonException;
 import com.example.common.core.web.AjaxResult;
+import com.example.common.redis.service.RedisClient;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,9 +24,15 @@ import java.io.IOException;
  * @Author : liuql  //作者
  * @Date: 2024/9/17  18:51
  */
-@RestController()
+@RestController
 @RequestMapping("/Captcha")
 public class ValidateCodeController {
+
+    @Value("${spring.redis.database}")
+    String value;
+
+
+
     @Autowired
     ValidateCodeService validateCodeService;
 

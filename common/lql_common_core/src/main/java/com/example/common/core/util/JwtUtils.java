@@ -1,10 +1,12 @@
 package com.example.common.core.util;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import cn.hutool.core.util.StrUtil;
 import com.example.common.core.constant.SecurityConstants;
 import com.example.common.core.constant.TokenConstants;
+import com.example.common.core.entity.user.LoginUser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -18,6 +20,14 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 public class JwtUtils {
     public static String secret = TokenConstants.SECRET;
+
+
+    public static String createToken(LoginUser loginUser) {
+        Map<String,Object> claims = new HashMap<>();
+        claims.put(SecurityConstants.DETAILS_USER_ID,loginUser.getUserid());
+        claims.put(SecurityConstants.DETAILS_USERNAME,loginUser.getUsername());
+        return createToken(claims);
+    }
 
     /**
      * 从数据声明生成令牌

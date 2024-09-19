@@ -1,6 +1,0 @@
-spring:
-  application:
-    name: lql_gateway
-  profiles:
-    # 环境配置
-    active: dev
