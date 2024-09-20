@@ -2,7 +2,9 @@ package com.example.common.core.util;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
+import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.StrUtil;
 import com.example.common.core.constant.SecurityConstants;
 import com.example.common.core.constant.TokenConstants;
@@ -26,6 +28,12 @@ public class JwtUtils {
         Map<String,Object> claims = new HashMap<>();
         claims.put(SecurityConstants.DETAILS_USER_ID,loginUser.getUserid());
         claims.put(SecurityConstants.DETAILS_USERNAME,loginUser.getUsername());
+        /**
+         * 需要一个变量，来保证用户每次登入获取的 token 都是不一致的。
+         */
+        String uuid = UUID.fastUUID().toString();
+        claims.put(SecurityConstants.USER_KEY,uuid);
+
         return createToken(claims);
     }
 
@@ -132,4 +140,5 @@ public class JwtUtils {
     {
         return StrUtil.toString(claims.getOrDefault(key,""));
     }
+
 }

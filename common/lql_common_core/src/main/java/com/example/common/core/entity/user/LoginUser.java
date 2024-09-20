@@ -10,7 +10,7 @@ public class LoginUser  {
     /**
      * 用户唯一标识
      */
-    private String token;
+    private String Uuid;
 
     /**
      * 用户名id
