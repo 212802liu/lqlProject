@@ -15,6 +15,7 @@
         <module>lql_common_security</module>
         <module>lql_common_redis</module>
         <module>lql_common_core</module>
+        <module>lql_common_swagger</module>
     </modules>
 
     <properties>

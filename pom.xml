@@ -17,6 +17,8 @@
         <fastjson.version>2.0.43</fastjson.version>
         <kaptcha.version>2.3.3</kaptcha.version>
         <jjwt.version>0.9.1</jjwt.version>
+        <springdoc.version>1.6.9</springdoc.version>
+
 
 
 
@@ -28,37 +30,27 @@
         <module>auth</module>
     </modules>
     <dependencies>
-        <!-- SpringCloud 微服务 -->
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.cloud</groupId>-->
-        <!--            <artifactId>spring-cloud-dependencies</artifactId>-->
-        <!--            <version>${spring-cloud.version}</version>-->
-        <!--            <type>pom</type>-->
-        <!--            <scope>import</scope>-->
-        <!--        </dependency>-->
 
-        <!--        &lt;!&ndash; SpringCloud Alibaba 微服务 &ndash;&gt;-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.alibaba.cloud</groupId>-->
-        <!--            <artifactId>spring-cloud-alibaba-dependencies</artifactId>-->
-        <!--            <version>${spring-cloud-alibaba.version}</version>-->
-        <!--            <type>pom</type>-->
-        <!--            <scope>import</scope>-->
-        <!--        </dependency>-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
+        <!-- springDoc -->
         <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>${jjwt.version}</version>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${springdoc.version}</version>
         </dependency>
         <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-            <version>5.8.16</version>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-webflux-ui</artifactId>
+            <version>${springdoc.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-common</artifactId>
+            <version>${springdoc.version}</version>
         </dependency>
 
     </dependencies>

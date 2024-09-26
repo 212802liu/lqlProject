@@ -26,8 +26,24 @@ spring:
         namespace: myDev
         # 文件格式
         file-extension: yaml
-      extConfig:
-        - dataId: ajxtDB-mysql.yml
-          group: dev
-          refresh: true
+        # 拓展文件
+        extension-configs:
+          - dataId: redis-dev.yml
+            group: DEFAULT_GROUP
+            refresh: true
 
+# springdoc配置
+springdoc:
+  gatewayUrl: http://localhost:8081/${spring.application.name}
+  api-docs:
+    # 是否开启接口文档
+    enabled: true
+  info:
+    # 标题
+    title: 'web模块接口文档'
+    # 描述
+    description: 'web模块接口描述'
+    # 作者信息
+    contact:
+      name: liuql
+      url: xxx.com
