@@ -32,9 +32,9 @@ spring:
             group: DEFAULT_GROUP
             refresh: true
 
-# springdoc配置
+# springdoc配置   http://server:port/context-path/swagger-ui.html 本服务文档
 springdoc:
-  gatewayUrl: http://localhost:8081/${spring.application.name}
+  gatewayUrl: http://localhost:8081${server.servlet.context-path}
   api-docs:
     # 是否开启接口文档
     enabled: true
@@ -47,3 +47,6 @@ springdoc:
     contact:
       name: liuql
       url: xxx.com
+user:
+  name1: kjij
+  age: 12

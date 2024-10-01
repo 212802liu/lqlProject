@@ -35,8 +35,8 @@
         </dependency>
         <dependency>
             <groupId>cn.hutool</groupId>
-            <artifactId>Hutool-core</artifactId>
-            <version>5.8.16</version>
+            <artifactId>hutool-core</artifactId>
+            <version>5.8.15</version>
         </dependency>
 
     </dependencies>

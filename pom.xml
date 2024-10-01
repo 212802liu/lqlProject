@@ -18,6 +18,7 @@
         <kaptcha.version>2.3.3</kaptcha.version>
         <jjwt.version>0.9.1</jjwt.version>
         <springdoc.version>1.6.9</springdoc.version>
+        <swagger.fox.version>3.0.0</swagger.fox.version>
 
 
 
@@ -36,22 +37,22 @@
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-        <!-- springDoc -->
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-ui</artifactId>
-            <version>${springdoc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-webflux-ui</artifactId>
-            <version>${springdoc.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springdoc</groupId>
-            <artifactId>springdoc-openapi-common</artifactId>
-            <version>${springdoc.version}</version>
-        </dependency>
+<!--         springDoc-->
+<!--        <dependency>-->
+<!--            <groupId>org.springdoc</groupId>-->
+<!--            <artifactId>springdoc-openapi-ui</artifactId>-->
+<!--            <version>${springdoc.version}</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springdoc</groupId>-->
+<!--            <artifactId>springdoc-openapi-webflux-ui</artifactId>-->
+<!--            <version>${springdoc.version}</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.springdoc</groupId>-->
+<!--            <artifactId>springdoc-openapi-common</artifactId>-->
+<!--            <version>${springdoc.version}</version>-->
+<!--        </dependency>-->
 
     </dependencies>
     <dependencyManagement>

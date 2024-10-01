@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.webapp.demos.nacosdiscoveryconsumer;
+package com.example.webapp.demos.controller;
 
-import com.example.webapp.demos.nacosconfig.User;
+import com.example.webapp.demos.entity.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -25,9 +25,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Tag(name = "OpenFeignController", description = "测试相关接口")
@@ -62,12 +60,14 @@ public class OpenFeignController {
                     @ApiResponse(responseCode = "400", description = "返回400时候错误的原因")
             }
     )
+    @PostMapping("/addUser")
     String addUser(String name){
         return "addUser:"+name;
     }
 
     @Operation(summary = "管理员删除用户", description = "根据姓名删除用户")
     @ApiResponse(description = "返回添加的用户", content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)))
+    @DeleteMapping("/delUser")
     User delUser(@Parameter(description = "姓名") String name){
         return new User();
     }
@@ -75,6 +75,7 @@ public class OpenFeignController {
 
     @Operation(summary = "管理员更新用户", description = "管理员根据姓名更新用户")
     @ApiResponse(description = "返回更新的用户", content = @Content(mediaType = "application/json", schema = @Schema(implementation = User.class)))
+    @PostMapping("/updateUser")
     String updateUser(@Parameter(schema = @Schema(implementation = User.class), required = true, description = "用户类") User user){
         return "addUser:"+user;
     }

@@ -31,7 +31,7 @@ import java.util.List;
  * @Author : liuql  //作者
  * @Date: 2024/9/17  19:53
  */
-@Component
+//@Component
 @Slf4j
 public class AuthFilter implements GlobalFilter,Ordered {
     /**
