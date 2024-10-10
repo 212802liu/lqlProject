@@ -1,4 +1,4 @@
-package com.example.common.knife.conf;
+package com.example.common.swagger.conf;
 
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.License;

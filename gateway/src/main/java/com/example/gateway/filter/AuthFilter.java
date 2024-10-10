@@ -5,18 +5,19 @@ import com.example.common.core.constant.CommonRedisConstants;
 import com.example.common.core.constant.TokenConstants;
 import com.example.common.core.util.JwtUtils;
 import com.example.common.redis.service.RedisClient;
+import com.example.gateway.config.properties.IgnoreWhiteProperties;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.environment.EnvironmentChangeEvent;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
-import org.springframework.core.Constants;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.EventListener;
 import org.springframework.core.Ordered;
-import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.http.server.reactive.ServerHttpResponse;
-import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -24,6 +25,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * @ClassName : AuthFilter  //类名
@@ -31,22 +34,39 @@ import java.util.List;
  * @Author : liuql  //作者
  * @Date: 2024/9/17  19:53
  */
+
+/**
+ * todo: 待测试
+ * @RefreshScope 动态刷新 ignoreWhite
+ * 当配置中心（如 Spring Cloud Config）中的配置发生变化时，使用 @RefreshScope 注解的 bean 会被重新创建。
+ * 这样，bean 中的配置属性会自动更新为最新的值。
+ *
+ * 或者  , ApplicationListener<EnvironmentChangeEvent>
+ * 你可以监听 EnvironmentChangeEvent，在配置更新时手动刷新正则表达式列表。
+ */
 //@Component
 @Slf4j
 public class AuthFilter implements GlobalFilter,Ordered {
     /**
      * todo : 配置注入
      */
-    private List<String> whiteIgnore;
-
     @Autowired
+    private IgnoreWhiteProperties ignoreWhite;
+
+    private List<Pattern> whiteIgnorePatterns;
+
+
+
+    //    @Autowired
     private RedisClient redisClient;
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
         String path = request.getURI().getPath();
+
+
         // 白名单放行
-        if (whiteIgnore.contains(path)){
+        if (matches(path)){
             return chain.filter(exchange);
         }
         // 验证taken
@@ -115,5 +135,27 @@ public class AuthFilter implements GlobalFilter,Ordered {
         return token;
     }
 
+    private void reFlashWhiteIgnore(){
+        whiteIgnorePatterns = ignoreWhite.getWhites().stream().map(Pattern::compile).collect(Collectors.toList());
+    }
 
+
+
+    public boolean matches(String path) {
+        if (CollectionUtils.isEmpty(whiteIgnorePatterns)) {
+            reFlashWhiteIgnore();
+        }
+        for (Pattern pattern : whiteIgnorePatterns) {
+            if (pattern.matcher(path).matches()) {
+                return true; // 找到匹配的正则表达式
+            }
+        }
+        return false; // 没有匹配
+    }
+
+    //    @Override
+//    @EventListener
+    public void onApplicationEvent(EnvironmentChangeEvent event) {
+        reFlashWhiteIgnore();
+    }
 }

@@ -6,4 +6,4 @@
 
 
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.example.common.knife.conf.Swagger2DocAutoConfig
+com.example.common.swagger.conf.Swagger2DocAutoConfig

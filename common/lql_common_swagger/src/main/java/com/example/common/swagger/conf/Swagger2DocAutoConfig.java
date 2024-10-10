@@ -1,5 +1,6 @@
-package com.example.common.knife.conf;
+package com.example.common.swagger.conf;
 
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
