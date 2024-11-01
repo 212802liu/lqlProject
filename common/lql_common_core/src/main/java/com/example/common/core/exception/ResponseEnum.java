@@ -3,6 +3,9 @@ package com.example.common.core.exception;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * 断言+统一异常处理 ：https://www.jianshu.com/p/3f3d9e8d1efa
+ */
 @Getter
 @AllArgsConstructor
 public enum  ResponseEnum implements LqlCommonExceptionAssert{

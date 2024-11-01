@@ -1,0 +1,49 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /reactWeb
+spring:
+  application:
+    name: lql-web
+  config:
+    activate:
+      on-profile: dev
+  # 这个方式行不通，,用 ↑ 的
+  #  profiles:
+  #    active: dev
+  cloud:
+    nacos:
+      # 服务注册方面
+      discovery:
+        # 服务注册地址
+        server-addr: 127.0.0.1:8848
+        namespace: myDev
+      # 服务配置方面
+      config:
+        # 配置中心地址
+        server-addr: 127.0.0.1:8848
+        # 命名空间
+        namespace: myDev
+        # 文件格式
+        file-extension: yaml
+        # 拓展文件
+        extension-configs:
+          - dataId: redis-dev.yml
+            group: DEFAULT_GROUP
+            refresh: true
+
+# springdoc配置   http://server:port/context-path/swagger-ui.html 本服务文档
+springdoc:
+  gatewayUrl: http://localhost:8081${server.servlet.context-path}
+  api-docs:
+    # 是否开启接口文档
+    enabled: true
+  info:
+    # 标题
+    title: 'web模块接口文档'
+    # 描述
+    description: 'web模块接口描述'
+    # 作者信息
+    contact:
+      name: liuql
+      url: xxx.com
