@@ -15,7 +15,7 @@ import reactor.core.publisher.Mono;
 import java.io.IOException;
 
 /**
- * @ClassName : ValidateCodeAcquireHandler    -> ValidateCodeRouterConfig
+ * @ClassName : ValidateCodeAcquireHandler  路由配置在  -> ValidateCodeRouterConfig
  * @Description : 换取验证码处理器  //描述
  * @Author : liuql  //作者
  * @Date: 2024/9/17  11:04
