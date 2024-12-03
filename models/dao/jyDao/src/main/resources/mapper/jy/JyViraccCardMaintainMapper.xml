@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.jyDB.mapper.JyViraccCardMaintainMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.jyDB.domain.JyViraccCardMaintain">
+            <id property="loanReqNo" column="LOAN_REQ_NO" jdbcType="VARCHAR"/>
+            <result property="newAcno" column="NEW_ACNO" jdbcType="VARCHAR"/>
+            <result property="newAcname" column="NEW_ACNAME" jdbcType="VARCHAR"/>
+            <result property="chgReason" column="CHG_REASON" jdbcType="VARCHAR"/>
+            <result property="ifAuth" column="IF_AUTH" jdbcType="CHAR"/>
+            <result property="opType" column="OP_TYPE" jdbcType="CHAR"/>
+            <result property="acType" column="AC_TYPE" jdbcType="CHAR"/>
+            <result property="idType" column="ID_TYPE" jdbcType="CHAR"/>
+            <result property="idNo" column="ID_NO" jdbcType="VARCHAR"/>
+            <result property="phoneNo" column="PHONE_NO" jdbcType="CHAR"/>
+            <result property="payStatus" column="PAY_STATUS" jdbcType="CHAR"/>
+            <result property="payFailMessage" column="PAY_FAIL_MESSAGE" jdbcType="VARCHAR"/>
+            <result property="bizUserId" column="BIZ_USER_ID" jdbcType="VARCHAR"/>
+            <result property="tranceNum" column="TRANCE_NUM" jdbcType="VARCHAR"/>
+            <result property="transDate" column="TRANS_DATE" jdbcType="CHAR"/>
+            <result property="bankName" column="BANK_NAME" jdbcType="VARCHAR"/>
+            <result property="bankCode" column="BANK_CODE" jdbcType="VARCHAR"/>
+            <result property="cardType" column="CARD_TYPE" jdbcType="CHAR"/>
+            <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+            <result property="custName" column="CUST_NAME" jdbcType="VARCHAR"/>
+            <result property="agreementNo" column="AGREEMENT_NO" jdbcType="VARCHAR"/>
+            <result property="tltFlag" column="TLT_FLAG" jdbcType="CHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        LOAN_REQ_NO,NEW_ACNO,NEW_ACNAME,
+        CHG_REASON,IF_AUTH,OP_TYPE,
+        AC_TYPE,ID_TYPE,ID_NO,
+        PHONE_NO,PAY_STATUS,PAY_FAIL_MESSAGE,
+        BIZ_USER_ID,TRANCE_NUM,TRANS_DATE,
+        BANK_NAME,BANK_CODE,CARD_TYPE,
+        CREATE_TIME,CUST_NAME,AGREEMENT_NO,
+        TLT_FLAG
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from AJFC_JY_VIRACC_CARD_MAINTAIN
+        where  LOAN_REQ_NO = #{loanReqNo,jdbcType=VARCHAR} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+        delete from AJFC_JY_VIRACC_CARD_MAINTAIN
+        where  LOAN_REQ_NO = #{loanReqNo,jdbcType=VARCHAR} 
+    </delete>
+    <insert id="insert" keyColumn="LOAN_REQ_NO" keyProperty="loanReqNo" parameterType="com.example.jyDB.domain.JyViraccCardMaintain" useGeneratedKeys="true">
+        insert into AJFC_JY_VIRACC_CARD_MAINTAIN
+        ( LOAN_REQ_NO,NEW_ACNO,NEW_ACNAME
+        ,CHG_REASON,IF_AUTH,OP_TYPE
+        ,AC_TYPE,ID_TYPE,ID_NO
+        ,PHONE_NO,PAY_STATUS,PAY_FAIL_MESSAGE
+        ,BIZ_USER_ID,TRANCE_NUM,TRANS_DATE
+        ,BANK_NAME,BANK_CODE,CARD_TYPE
+        ,CREATE_TIME,CUST_NAME,AGREEMENT_NO
+        ,TLT_FLAG)
+        values (#{loanReqNo,jdbcType=VARCHAR},#{newAcno,jdbcType=VARCHAR},#{newAcname,jdbcType=VARCHAR}
+        ,#{chgReason,jdbcType=VARCHAR},#{ifAuth,jdbcType=CHAR},#{opType,jdbcType=CHAR}
+        ,#{acType,jdbcType=CHAR},#{idType,jdbcType=CHAR},#{idNo,jdbcType=VARCHAR}
+        ,#{phoneNo,jdbcType=CHAR},#{payStatus,jdbcType=CHAR},#{payFailMessage,jdbcType=VARCHAR}
+        ,#{bizUserId,jdbcType=VARCHAR},#{tranceNum,jdbcType=VARCHAR},#{transDate,jdbcType=CHAR}
+        ,#{bankName,jdbcType=VARCHAR},#{bankCode,jdbcType=VARCHAR},#{cardType,jdbcType=CHAR}
+        ,#{createTime,jdbcType=TIMESTAMP},#{custName,jdbcType=VARCHAR},#{agreementNo,jdbcType=VARCHAR}
+        ,#{tltFlag,jdbcType=CHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="LOAN_REQ_NO" keyProperty="loanReqNo" parameterType="com.example.jyDB.domain.JyViraccCardMaintain" useGeneratedKeys="true">
+        insert into AJFC_JY_VIRACC_CARD_MAINTAIN
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="loanReqNo != null">LOAN_REQ_NO,</if>
+                <if test="newAcno != null">NEW_ACNO,</if>
+                <if test="newAcname != null">NEW_ACNAME,</if>
+                <if test="chgReason != null">CHG_REASON,</if>
+                <if test="ifAuth != null">IF_AUTH,</if>
+                <if test="opType != null">OP_TYPE,</if>
+                <if test="acType != null">AC_TYPE,</if>
+                <if test="idType != null">ID_TYPE,</if>
+                <if test="idNo != null">ID_NO,</if>
+                <if test="phoneNo != null">PHONE_NO,</if>
+                <if test="payStatus != null">PAY_STATUS,</if>
+                <if test="payFailMessage != null">PAY_FAIL_MESSAGE,</if>
+                <if test="bizUserId != null">BIZ_USER_ID,</if>
+                <if test="tranceNum != null">TRANCE_NUM,</if>
+                <if test="transDate != null">TRANS_DATE,</if>
+                <if test="bankName != null">BANK_NAME,</if>
+                <if test="bankCode != null">BANK_CODE,</if>
+                <if test="cardType != null">CARD_TYPE,</if>
+                <if test="createTime != null">CREATE_TIME,</if>
+                <if test="custName != null">CUST_NAME,</if>
+                <if test="agreementNo != null">AGREEMENT_NO,</if>
+                <if test="tltFlag != null">TLT_FLAG,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="loanReqNo != null">#{loanReqNo,jdbcType=VARCHAR},</if>
+                <if test="newAcno != null">#{newAcno,jdbcType=VARCHAR},</if>
+                <if test="newAcname != null">#{newAcname,jdbcType=VARCHAR},</if>
+                <if test="chgReason != null">#{chgReason,jdbcType=VARCHAR},</if>
+                <if test="ifAuth != null">#{ifAuth,jdbcType=CHAR},</if>
+                <if test="opType != null">#{opType,jdbcType=CHAR},</if>
+                <if test="acType != null">#{acType,jdbcType=CHAR},</if>
+                <if test="idType != null">#{idType,jdbcType=CHAR},</if>
+                <if test="idNo != null">#{idNo,jdbcType=VARCHAR},</if>
+                <if test="phoneNo != null">#{phoneNo,jdbcType=CHAR},</if>
+                <if test="payStatus != null">#{payStatus,jdbcType=CHAR},</if>
+                <if test="payFailMessage != null">#{payFailMessage,jdbcType=VARCHAR},</if>
+                <if test="bizUserId != null">#{bizUserId,jdbcType=VARCHAR},</if>
+                <if test="tranceNum != null">#{tranceNum,jdbcType=VARCHAR},</if>
+                <if test="transDate != null">#{transDate,jdbcType=CHAR},</if>
+                <if test="bankName != null">#{bankName,jdbcType=VARCHAR},</if>
+                <if test="bankCode != null">#{bankCode,jdbcType=VARCHAR},</if>
+                <if test="cardType != null">#{cardType,jdbcType=CHAR},</if>
+                <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+                <if test="custName != null">#{custName,jdbcType=VARCHAR},</if>
+                <if test="agreementNo != null">#{agreementNo,jdbcType=VARCHAR},</if>
+                <if test="tltFlag != null">#{tltFlag,jdbcType=CHAR},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.jyDB.domain.JyViraccCardMaintain">
+        update AJFC_JY_VIRACC_CARD_MAINTAIN
+        <set>
+                <if test="newAcno != null">
+                    NEW_ACNO = #{newAcno,jdbcType=VARCHAR},
+                </if>
+                <if test="newAcname != null">
+                    NEW_ACNAME = #{newAcname,jdbcType=VARCHAR},
+                </if>
+                <if test="chgReason != null">
+                    CHG_REASON = #{chgReason,jdbcType=VARCHAR},
+                </if>
+                <if test="ifAuth != null">
+                    IF_AUTH = #{ifAuth,jdbcType=CHAR},
+                </if>
+                <if test="opType != null">
+                    OP_TYPE = #{opType,jdbcType=CHAR},
+                </if>
+                <if test="acType != null">
+                    AC_TYPE = #{acType,jdbcType=CHAR},
+                </if>
+                <if test="idType != null">
+                    ID_TYPE = #{idType,jdbcType=CHAR},
+                </if>
+                <if test="idNo != null">
+                    ID_NO = #{idNo,jdbcType=VARCHAR},
+                </if>
+                <if test="phoneNo != null">
+                    PHONE_NO = #{phoneNo,jdbcType=CHAR},
+                </if>
+                <if test="payStatus != null">
+                    PAY_STATUS = #{payStatus,jdbcType=CHAR},
+                </if>
+                <if test="payFailMessage != null">
+                    PAY_FAIL_MESSAGE = #{payFailMessage,jdbcType=VARCHAR},
+                </if>
+                <if test="bizUserId != null">
+                    BIZ_USER_ID = #{bizUserId,jdbcType=VARCHAR},
+                </if>
+                <if test="tranceNum != null">
+                    TRANCE_NUM = #{tranceNum,jdbcType=VARCHAR},
+                </if>
+                <if test="transDate != null">
+                    TRANS_DATE = #{transDate,jdbcType=CHAR},
+                </if>
+                <if test="bankName != null">
+                    BANK_NAME = #{bankName,jdbcType=VARCHAR},
+                </if>
+                <if test="bankCode != null">
+                    BANK_CODE = #{bankCode,jdbcType=VARCHAR},
+                </if>
+                <if test="cardType != null">
+                    CARD_TYPE = #{cardType,jdbcType=CHAR},
+                </if>
+                <if test="createTime != null">
+                    CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+                </if>
+                <if test="custName != null">
+                    CUST_NAME = #{custName,jdbcType=VARCHAR},
+                </if>
+                <if test="agreementNo != null">
+                    AGREEMENT_NO = #{agreementNo,jdbcType=VARCHAR},
+                </if>
+                <if test="tltFlag != null">
+                    TLT_FLAG = #{tltFlag,jdbcType=CHAR},
+                </if>
+        </set>
+        where   LOAN_REQ_NO = #{loanReqNo,jdbcType=VARCHAR} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.example.jyDB.domain.JyViraccCardMaintain">
+        update AJFC_JY_VIRACC_CARD_MAINTAIN
+        set 
+            NEW_ACNO =  #{newAcno,jdbcType=VARCHAR},
+            NEW_ACNAME =  #{newAcname,jdbcType=VARCHAR},
+            CHG_REASON =  #{chgReason,jdbcType=VARCHAR},
+            IF_AUTH =  #{ifAuth,jdbcType=CHAR},
+            OP_TYPE =  #{opType,jdbcType=CHAR},
+            AC_TYPE =  #{acType,jdbcType=CHAR},
+            ID_TYPE =  #{idType,jdbcType=CHAR},
+            ID_NO =  #{idNo,jdbcType=VARCHAR},
+            PHONE_NO =  #{phoneNo,jdbcType=CHAR},
+            PAY_STATUS =  #{payStatus,jdbcType=CHAR},
+            PAY_FAIL_MESSAGE =  #{payFailMessage,jdbcType=VARCHAR},
+            BIZ_USER_ID =  #{bizUserId,jdbcType=VARCHAR},
+            TRANCE_NUM =  #{tranceNum,jdbcType=VARCHAR},
+            TRANS_DATE =  #{transDate,jdbcType=CHAR},
+            BANK_NAME =  #{bankName,jdbcType=VARCHAR},
+            BANK_CODE =  #{bankCode,jdbcType=VARCHAR},
+            CARD_TYPE =  #{cardType,jdbcType=CHAR},
+            CREATE_TIME =  #{createTime,jdbcType=TIMESTAMP},
+            CUST_NAME =  #{custName,jdbcType=VARCHAR},
+            AGREEMENT_NO =  #{agreementNo,jdbcType=VARCHAR},
+            TLT_FLAG =  #{tltFlag,jdbcType=CHAR}
+        where   LOAN_REQ_NO = #{loanReqNo,jdbcType=VARCHAR} 
+    </update>
+</mapper>

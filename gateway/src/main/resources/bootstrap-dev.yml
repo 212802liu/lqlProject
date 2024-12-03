@@ -2,6 +2,8 @@ server:
   port: 8081
 
 spring:
+  application:
+    name: lql_gateway
   config:
     activate:
       on-profile:
@@ -21,8 +23,15 @@ spring:
         # 命名空间
         namespace: myDev
         # 文件格式
-        file-extension: yml
-
+        file-extension: yaml
+        # 其他配置文件集合
+        extension-configs:
+          - dataId: jyDB-mysql-dev.yaml
+            group: DEFAULT_GROUP
+            refresh: true
+          - dataId: redis-dev.yml
+            group: DEFAULT_GROUP
+            refresh: true
 
     gateway:
       discovery:
@@ -35,6 +44,7 @@ spring:
           uri: lb://lql-web # 路由的目的地，lb是负载均衡，后面跟服务名称
           predicates: # 路由断言，也就是判断是否符合路由规则的条件
             - Path=/webapi/** # path 按照路径进行匹配，只要以/order-service/开头就符合规则
+
 #          filters:
 #            - StripPrefix=1 # 过滤器，去除请求的前缀路径，StripPrefix=1 表示去除请求路径的第一个路径片段
 security:

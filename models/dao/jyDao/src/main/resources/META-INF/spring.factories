@@ -1,0 +1,10 @@
+# Spring Boot 2.7 not recommended /META-INF/spring.factories. and after Spring Boot 3 is banned to use /META-INF/spring.factories
+
+# instand of use
+
+# /META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports
+
+
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.example.jyDB.config.DruidJyConfigProperties,\
+com.example.jyDB.config.JyDruidConfig

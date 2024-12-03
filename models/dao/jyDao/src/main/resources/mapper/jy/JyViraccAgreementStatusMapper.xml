@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.jyDB.mapper.JyViraccAgreementStatusMapper">
+
+    <resultMap id="BaseResultMap" type="com.example.jyDB.domain.JyViraccAgreementStatus">
+            <id property="id" column="ID" jdbcType="VARCHAR"/>
+            <result property="channelNo" column="CHANNEL_NO" jdbcType="CHAR"/>
+            <result property="bizUserId" column="BIZ_USER_ID" jdbcType="VARCHAR"/>
+            <result property="idType" column="ID_TYPE" jdbcType="CHAR"/>
+            <result property="idNo" column="ID_NO" jdbcType="VARCHAR"/>
+            <result property="agreementNo" column="AGREEMENT_NO" jdbcType="VARCHAR"/>
+            <result property="tranceNum" column="TRANCE_NUM" jdbcType="VARCHAR"/>
+            <result property="cardNo" column="CARD_NO" jdbcType="VARCHAR"/>
+            <result property="phone" column="PHONE" jdbcType="VARCHAR"/>
+            <result property="status" column="STATUS" jdbcType="CHAR"/>
+            <result property="custName" column="CUST_NAME" jdbcType="VARCHAR"/>
+            <result property="bankName" column="BANK_NAME" jdbcType="VARCHAR"/>
+            <result property="bankCode" column="BANK_CODE" jdbcType="VARCHAR"/>
+            <result property="createTime" column="CREATE_TIME" jdbcType="TIMESTAMP"/>
+            <result property="updateTime" column="UPDATE_TIME" jdbcType="TIMESTAMP"/>
+            <result property="subAccno" column="SUB_ACCNO" jdbcType="VARCHAR"/>
+            <result property="applyErrorMsg" column="APPLY_ERROR_MSG" jdbcType="VARCHAR"/>
+            <result property="offlineChangeFlag" column="OFFLINE_CHANGE_FLAG" jdbcType="CHAR"/>
+            <result property="cardIsChangeBind" column="CARD_IS_CHANGE_BIND" jdbcType="CHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        ID,CHANNEL_NO,BIZ_USER_ID,
+        ID_TYPE,ID_NO,AGREEMENT_NO,
+        TRANCE_NUM,CARD_NO,PHONE,
+        STATUS,CUST_NAME,BANK_NAME,
+        BANK_CODE,CREATE_TIME,UPDATE_TIME,
+        SUB_ACCNO,APPLY_ERROR_MSG,OFFLINE_CHANGE_FLAG,
+        CARD_IS_CHANGE_BIND
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from AJFC_JY_VIRACC_AGREEMENT_STATUS
+        where  ID = #{id,jdbcType=VARCHAR} 
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from AJFC_JY_VIRACC_AGREEMENT_STATUS
+        where  ID = #{id,jdbcType=VARCHAR} 
+    </delete>
+    <insert id="insert" keyColumn="ID" keyProperty="id" parameterType="com.example.jyDB.domain.JyViraccAgreementStatus" useGeneratedKeys="true">
+        insert into AJFC_JY_VIRACC_AGREEMENT_STATUS
+        ( ID,CHANNEL_NO,BIZ_USER_ID
+        ,ID_TYPE,ID_NO,AGREEMENT_NO
+        ,TRANCE_NUM,CARD_NO,PHONE
+        ,STATUS,CUST_NAME,BANK_NAME
+        ,BANK_CODE,CREATE_TIME,UPDATE_TIME
+        ,SUB_ACCNO,APPLY_ERROR_MSG,OFFLINE_CHANGE_FLAG
+        ,CARD_IS_CHANGE_BIND)
+        values (#{id,jdbcType=VARCHAR},#{channelNo,jdbcType=CHAR},#{bizUserId,jdbcType=VARCHAR}
+        ,#{idType,jdbcType=CHAR},#{idNo,jdbcType=VARCHAR},#{agreementNo,jdbcType=VARCHAR}
+        ,#{tranceNum,jdbcType=VARCHAR},#{cardNo,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR}
+        ,#{status,jdbcType=CHAR},#{custName,jdbcType=VARCHAR},#{bankName,jdbcType=VARCHAR}
+        ,#{bankCode,jdbcType=VARCHAR},#{createTime,jdbcType=TIMESTAMP},#{updateTime,jdbcType=TIMESTAMP}
+        ,#{subAccno,jdbcType=VARCHAR},#{applyErrorMsg,jdbcType=VARCHAR},#{offlineChangeFlag,jdbcType=CHAR}
+        ,#{cardIsChangeBind,jdbcType=CHAR})
+    </insert>
+    <insert id="insertSelective" keyColumn="ID" keyProperty="id" parameterType="com.example.jyDB.domain.JyViraccAgreementStatus" useGeneratedKeys="true">
+        insert into AJFC_JY_VIRACC_AGREEMENT_STATUS
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+                <if test="id != null">ID,</if>
+                <if test="channelNo != null">CHANNEL_NO,</if>
+                <if test="bizUserId != null">BIZ_USER_ID,</if>
+                <if test="idType != null">ID_TYPE,</if>
+                <if test="idNo != null">ID_NO,</if>
+                <if test="agreementNo != null">AGREEMENT_NO,</if>
+                <if test="tranceNum != null">TRANCE_NUM,</if>
+                <if test="cardNo != null">CARD_NO,</if>
+                <if test="phone != null">PHONE,</if>
+                <if test="status != null">STATUS,</if>
+                <if test="custName != null">CUST_NAME,</if>
+                <if test="bankName != null">BANK_NAME,</if>
+                <if test="bankCode != null">BANK_CODE,</if>
+                <if test="createTime != null">CREATE_TIME,</if>
+                <if test="updateTime != null">UPDATE_TIME,</if>
+                <if test="subAccno != null">SUB_ACCNO,</if>
+                <if test="applyErrorMsg != null">APPLY_ERROR_MSG,</if>
+                <if test="offlineChangeFlag != null">OFFLINE_CHANGE_FLAG,</if>
+                <if test="cardIsChangeBind != null">CARD_IS_CHANGE_BIND,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+                <if test="id != null">#{id,jdbcType=VARCHAR},</if>
+                <if test="channelNo != null">#{channelNo,jdbcType=CHAR},</if>
+                <if test="bizUserId != null">#{bizUserId,jdbcType=VARCHAR},</if>
+                <if test="idType != null">#{idType,jdbcType=CHAR},</if>
+                <if test="idNo != null">#{idNo,jdbcType=VARCHAR},</if>
+                <if test="agreementNo != null">#{agreementNo,jdbcType=VARCHAR},</if>
+                <if test="tranceNum != null">#{tranceNum,jdbcType=VARCHAR},</if>
+                <if test="cardNo != null">#{cardNo,jdbcType=VARCHAR},</if>
+                <if test="phone != null">#{phone,jdbcType=VARCHAR},</if>
+                <if test="status != null">#{status,jdbcType=CHAR},</if>
+                <if test="custName != null">#{custName,jdbcType=VARCHAR},</if>
+                <if test="bankName != null">#{bankName,jdbcType=VARCHAR},</if>
+                <if test="bankCode != null">#{bankCode,jdbcType=VARCHAR},</if>
+                <if test="createTime != null">#{createTime,jdbcType=TIMESTAMP},</if>
+                <if test="updateTime != null">#{updateTime,jdbcType=TIMESTAMP},</if>
+                <if test="subAccno != null">#{subAccno,jdbcType=VARCHAR},</if>
+                <if test="applyErrorMsg != null">#{applyErrorMsg,jdbcType=VARCHAR},</if>
+                <if test="offlineChangeFlag != null">#{offlineChangeFlag,jdbcType=CHAR},</if>
+                <if test="cardIsChangeBind != null">#{cardIsChangeBind,jdbcType=CHAR},</if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.example.jyDB.domain.JyViraccAgreementStatus">
+        update AJFC_JY_VIRACC_AGREEMENT_STATUS
+        <set>
+                <if test="channelNo != null">
+                    CHANNEL_NO = #{channelNo,jdbcType=CHAR},
+                </if>
+                <if test="bizUserId != null">
+                    BIZ_USER_ID = #{bizUserId,jdbcType=VARCHAR},
+                </if>
+                <if test="idType != null">
+                    ID_TYPE = #{idType,jdbcType=CHAR},
+                </if>
+                <if test="idNo != null">
+                    ID_NO = #{idNo,jdbcType=VARCHAR},
+                </if>
+                <if test="agreementNo != null">
+                    AGREEMENT_NO = #{agreementNo,jdbcType=VARCHAR},
+                </if>
+                <if test="tranceNum != null">
+                    TRANCE_NUM = #{tranceNum,jdbcType=VARCHAR},
+                </if>
+                <if test="cardNo != null">
+                    CARD_NO = #{cardNo,jdbcType=VARCHAR},
+                </if>
+                <if test="phone != null">
+                    PHONE = #{phone,jdbcType=VARCHAR},
+                </if>
+                <if test="status != null">
+                    STATUS = #{status,jdbcType=CHAR},
+                </if>
+                <if test="custName != null">
+                    CUST_NAME = #{custName,jdbcType=VARCHAR},
+                </if>
+                <if test="bankName != null">
+                    BANK_NAME = #{bankName,jdbcType=VARCHAR},
+                </if>
+                <if test="bankCode != null">
+                    BANK_CODE = #{bankCode,jdbcType=VARCHAR},
+                </if>
+                <if test="createTime != null">
+                    CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+                </if>
+                <if test="updateTime != null">
+                    UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+                </if>
+                <if test="subAccno != null">
+                    SUB_ACCNO = #{subAccno,jdbcType=VARCHAR},
+                </if>
+                <if test="applyErrorMsg != null">
+                    APPLY_ERROR_MSG = #{applyErrorMsg,jdbcType=VARCHAR},
+                </if>
+                <if test="offlineChangeFlag != null">
+                    OFFLINE_CHANGE_FLAG = #{offlineChangeFlag,jdbcType=CHAR},
+                </if>
+                <if test="cardIsChangeBind != null">
+                    CARD_IS_CHANGE_BIND = #{cardIsChangeBind,jdbcType=CHAR},
+                </if>
+        </set>
+        where   ID = #{id,jdbcType=VARCHAR} 
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.example.jyDB.domain.JyViraccAgreementStatus">
+        update AJFC_JY_VIRACC_AGREEMENT_STATUS
+        set 
+            CHANNEL_NO =  #{channelNo,jdbcType=CHAR},
+            BIZ_USER_ID =  #{bizUserId,jdbcType=VARCHAR},
+            ID_TYPE =  #{idType,jdbcType=CHAR},
+            ID_NO =  #{idNo,jdbcType=VARCHAR},
+            AGREEMENT_NO =  #{agreementNo,jdbcType=VARCHAR},
+            TRANCE_NUM =  #{tranceNum,jdbcType=VARCHAR},
+            CARD_NO =  #{cardNo,jdbcType=VARCHAR},
+            PHONE =  #{phone,jdbcType=VARCHAR},
+            STATUS =  #{status,jdbcType=CHAR},
+            CUST_NAME =  #{custName,jdbcType=VARCHAR},
+            BANK_NAME =  #{bankName,jdbcType=VARCHAR},
+            BANK_CODE =  #{bankCode,jdbcType=VARCHAR},
+            CREATE_TIME =  #{createTime,jdbcType=TIMESTAMP},
+            UPDATE_TIME =  #{updateTime,jdbcType=TIMESTAMP},
+            SUB_ACCNO =  #{subAccno,jdbcType=VARCHAR},
+            APPLY_ERROR_MSG =  #{applyErrorMsg,jdbcType=VARCHAR},
+            OFFLINE_CHANGE_FLAG =  #{offlineChangeFlag,jdbcType=CHAR},
+            CARD_IS_CHANGE_BIND =  #{cardIsChangeBind,jdbcType=CHAR}
+        where   ID = #{id,jdbcType=VARCHAR} 
+    </update>
+</mapper>
