@@ -1,7 +1,8 @@
-package com.example.webFlux.Controller;
+package com.example.react.Controller;
 
-import com.example.webFlux.entity.Book;
-import com.example.webFlux.service.BookService;
+import com.example.react.entity.TBook;
+import com.example.react.mapper.TBookMapper;
+import com.example.react.service.BookService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -23,10 +24,15 @@ public class WebFluxDemoController {
     @Autowired
     private BookService bookService;
 
+    @Autowired
+    private TBookMapper bookMapper;
+
     @GetMapping
     @Operation(summary = "获取书籍列表", description = "获取所有书籍")
-    public Flux<Book> list() {
-        return bookService.findAll();
+    public Flux<TBook> list() {
+//        return bookService.findAll();
+        return bookMapper.findAll();
+
     }
 
 
@@ -36,12 +42,12 @@ public class WebFluxDemoController {
                     @Parameter(name = "name", description = "姓名")
             },
             responses = {
-                    @ApiResponse(description = "返回添加的用户", content = @Content(mediaType = "application/json", schema = @Schema(anyOf = {String.class, Book.class}))),
+                    @ApiResponse(description = "返回添加的用户", content = @Content(mediaType = "application/json", schema = @Schema(anyOf = {String.class, TBook.class}))),
                     @ApiResponse(responseCode = "400", description = "返回400时候错误的原因")
             }
     )
     @PostMapping("/addBook")
-    Mono<Book> addUser(@RequestBody Book newBook){
-        return bookService.save(newBook);
+    Mono<TBook> addUser(@RequestBody TBook newTBook){
+        return bookService.save(newTBook);
     }
 }

@@ -58,7 +58,7 @@ public class ReactorDemo1 {
      * 与interval()方法相同，但该方法通过毫秒数来指定时间间隔和延迟时间
      */
     @Test
-    void flux_create(){
+    void flux_instance(){
 
         Flux.just(1, 2, 3, 4, 5, 6, 7, 0, 5, 6);
         Flux<String> stringFlux = Flux.just("hello", "world");//字符串
@@ -137,6 +137,57 @@ public class ReactorDemo1 {
         myEventProcessor.putData(data);
     }
 
+    private static Subscription subscription; // 类成员变量
+
+    private  void subscribeDemo() {
+        Flux.range(1, 5).subscribe(
+                value -> {
+                    System.out.println("Received: " + value);
+                    if (value % 5 == 0) {
+                        System.out.println("Requesting more...");
+                        subscription.request(5); // 请求5个元素
+                    }
+                },
+                error -> System.err.println("Error: " + error),
+                () -> System.out.println("Completed"),
+                sub -> {
+                    subscription = sub; // 存储 Subscription
+                    subscription.request(5); // 初始请求5个元素
+                }
+        );
+
+        SampleSubscriber<Integer> ss = new SampleSubscriber<Integer>();
+        Flux<Integer> ints = Flux.range(1, 20);
+        ints.subscribe(i -> System.out.println(" lambda:"+i),
+                error -> System.err.println("Error " + error),
+                () -> {System.out.println("Done");},
+                s -> ss.request(10));
+        ints.subscribe(ss);
+        ints.subscribe(System.out::println);
+
+
+        String[] ar = {"aa","bb"};
+        Flux<String> source = Flux.fromArray(ar);
+
+        source.map(String::toUpperCase)
+                .subscribe(new BaseSubscriber<String>() {
+                    @Override
+                    protected void hookOnSubscribe(Subscription subscription) {
+                        System.out.println("first time");
+                        request(1);
+                    }
+
+                    @Override
+                    protected void hookOnNext(String value) {
+                        System.out.println(value);
+                        request(1);
+                    }
+
+
+                });
+    }
+
+
     @Test
      void logTest() {
 //        Flux.concat(Flux.just(1,2,3),Flux.just(7,8,9))
@@ -151,6 +202,28 @@ public class ReactorDemo1 {
                 .log()  // onNext(haha-4 ~ 7)
                 .subscribe(System.out::println);
 
+
+    }
+
+
+    /**
+     *  有点像map
+     */
+    public void handle(){
+        Flux<String> alphabet = Flux.just(65, 66, 32, 9, 99)
+                .handle((i, sink) -> {
+                    System.out.println("value = "+i);
+                    String letter = alphabet(i);
+                    if (letter != null)
+                        sink.next(letter);
+                })
+                ;
+
+        alphabet.log().subscribe(System.out::println);
+    }
+    String alphabet( int i){
+        char a = (char) i;
+        return String.valueOf(a);
 
     }
 
@@ -282,4 +355,96 @@ public class ReactorDemo1 {
         System.in.read();
     }
 
+
+    @Test
+    public   void errorHandler() {
+        Flux<Integer> ints = Flux.range(1, 5)
+                .map(i -> {
+                    if (i != 3) return i;
+                    throw new RuntimeException("Got to 4");
+                });
+        System.out.println("只消费正常元素");
+//        ints.subscribe(i -> System.out.println(i));
+        System.out.println("消费正常元素,且处理异常");
+        ints.subscribe(i -> System.out.println(i),
+                error -> System.err.println("Error: " + error),
+                ()-> System.out.println("异常后，complete 不会打印"));
+
+
+        System.out.println("onErrorReturn");
+        Flux.just(1, 2, 0, 4)
+                .map(i -> "100 / " + i + " = " + (100 / i))
+                .onErrorReturn(NullPointerException.class,"哈哈-6666")
+                // 发生异常时，返回一个默认值，并结束流
+//                .onErrorReturn(Exception.class,"哈哈-6666")
+                .subscribe(v-> System.out.println("v = " + v),
+                        err -> System.out.println("err = " + err),
+                        ()-> System.out.println("流结束")); // error handling example
+
+        Flux.just(1, 2, 0, 4).subscribe(new BaseSubscriber<Integer>() {
+            @Override
+            protected void hookOnSubscribe(Subscription subscription) {
+                super.hookOnSubscribe(subscription);
+            }
+
+            @Override
+            protected void hookOnNext(Integer value) {
+                super.hookOnNext(value);
+            }
+
+            @Override
+            protected void hookOnComplete() {
+                super.hookOnComplete();
+            }
+
+            @Override
+            protected void hookOnError(Throwable throwable) {
+                super.hookOnError(throwable);
+            }
+
+            @Override
+            protected void hookOnCancel() {
+                super.hookOnCancel();
+            }
+        });
+    }
+
+    /**
+     * 缓冲  限流
+     */
+    @Test
+    public   void bufferAndLimit() {
+        //buffer：缓冲
+        Flux<List<Integer>> flux1 = Flux.range(1, 10)  //原始流10个
+                .buffer(3)
+                .log();
+//        flux1.subscribe();
+//limit：限流
+        Flux.range(1, 1000)
+                .log()
+                //限流触发，看上游是怎么限流获取数据的
+                .limitRate(100); //一次预取30个元素； 第一次 request(100)，以后request(75)
+//                .subscribe();
+    }
+
+
+    class SampleSubscriber<T> extends BaseSubscriber<T> {
+
+        @Override
+        public void hookOnSubscribe(Subscription subscription) {
+            System.out.println("Subscribed");
+            request(1);
+        }
+
+        @Override
+        public void hookOnNext(T value) {
+            System.out.println("SampleSubscriber:"+value);
+            request(1);
+        }
+
+        @Override
+        protected void hookOnCancel() {
+            super.hookOnCancel();
+        }
+    }
 }

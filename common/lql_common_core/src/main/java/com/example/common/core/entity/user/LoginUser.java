@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.Set;
 
 @Data
-public class LoginUser  {
+public class LoginUser {
 
     /**
      * 用户唯一标识

@@ -19,10 +19,10 @@ public class WebFluxController {
     private BookService bookService;
 
 
-    @GetMapping("/{name}")
-    public Mono<String> name(@PathVariable String name) {
-        return Mono.just(name);
-    }
+//    @GetMapping("/{name}")
+//    public Mono<String> name(@PathVariable String name) {
+//        return Mono.just(name);
+//    }
 
     @GetMapping("/age/{name}")
     public int age(@PathVariable int name) {

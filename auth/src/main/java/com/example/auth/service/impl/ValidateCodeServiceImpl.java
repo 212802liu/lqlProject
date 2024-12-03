@@ -18,6 +18,7 @@ import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @ClassName : ValidateCodeServiceImpl  //类名
@@ -79,7 +80,7 @@ public class ValidateCodeServiceImpl implements ValidateCodeService {
 
         // 验证码 保存redis
         String  uuid = UUID.fastUUID().toString();
-        redisClient.set(CommonRedisConstants.PREFIX_REDIS_CAPTCHA+uuid,code);
+        redisClient.set(CommonRedisConstants.PREFIX_REDIS_CAPTCHA+uuid,code,5, TimeUnit.MINUTES);
         // 返回成功
         ajax.put("uuid", uuid);
         ajax.put("img", Base64.encode(os.toByteArray()));

@@ -6,7 +6,6 @@ import com.example.auth.service.LoginService;
 import com.example.common.core.constant.CommonRedisConstants;
 import com.example.common.core.entity.user.LoginUser;
 import com.example.common.core.exception.ResponseEnum;
-import com.example.common.core.util.JwtUtils;
 import com.example.common.core.web.AjaxResult;
 import com.example.common.redis.service.RedisClient;
 import com.example.common.security.service.TokenService;
@@ -32,7 +31,7 @@ public class LoginServiceImpl implements LoginService {
         //验证码 ； 成功后作废
         String code =  redisClient.get(CommonRedisConstants.PREFIX_REDIS_CAPTCHA + loginBody.getUuid());
         if (StrUtil.isBlank(code) || !code.equals(loginBody.getValidateCode())){
-            AjaxResult.error("验证码错误或已过期");
+            return AjaxResult.error("验证码错误或已过期");
         }
         // token
         LoginUser loginUser = new LoginUser();

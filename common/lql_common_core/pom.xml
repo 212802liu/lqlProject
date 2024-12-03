@@ -60,6 +60,12 @@
       <artifactId>hutool-all</artifactId>
       <version>5.8.16</version>
     </dependency>
+    <!-- Alibaba Fastjson -->
+    <dependency>
+      <groupId>com.alibaba.fastjson2</groupId>
+      <artifactId>fastjson2</artifactId>
+      <version>${fastjson.version}</version>
+    </dependency>
 
   </dependencies>
 

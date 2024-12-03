@@ -31,7 +31,15 @@ spring:
           - dataId: redis-dev.yml
             group: DEFAULT_GROUP
             refresh: true
-
+# r2dbc 配置
+  r2dbc:
+    username: ajxt
+    password: Ajxt520!
+    url: r2dbc:mysql://192.168.32.140:3306
+    name: ruoyi-vue-pro
+#logging:
+#  level:
+#    org.springframework.r2dbc: debug
 # springdoc配置   http://server:port/context-path/swagger-ui.html 本服务文档
 springdoc:
   gatewayUrl: http://localhost:8081${server.servlet.context-path}

@@ -5,6 +5,7 @@ import lombok.Getter;
 
 /**
  * 断言+统一异常处理 ：https://www.jianshu.com/p/3f3d9e8d1efa
+ * https://mp.weixin.qq.com/s?__biz=MzkzNzI2OTkzNg==&mid=2247490967&idx=1&sn=070c93443c1de6074978b0fcac34a254&chksm=c2935248f5e4db5e7a28e99a21ee548ec22c5bcf5243ba47803d13f92f12ada08530ffcd4ede&scene=132&exptype=timeline_recommend_article_extendread_samebiz#wechat_redirect
  */
 @Getter
 @AllArgsConstructor

@@ -17,10 +17,10 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
  * todo 这种方式没用！！！ 待解决
  *
  */
-@Configuration
+//@Configuration
 public class BookRouter {
 
-    @Bean
+//    @Bean
     public RouterFunction<ServerResponse> bookRoutes(BookHandler handler) {
         return route(GET("/webFlux"), handler::listBooks)
                 .andRoute(POST("/webFlux"), handler::createBook);

@@ -1,4 +1,4 @@
-package com.example.webFlux.entity;
+package com.example.react.entity;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;

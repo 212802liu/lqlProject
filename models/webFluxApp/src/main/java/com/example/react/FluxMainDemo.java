@@ -1,4 +1,4 @@
-package com.example.webFlux;
+package com.example.react;
 
 import org.springframework.core.io.buffer.DefaultDataBufferFactory;
 import org.springframework.http.server.reactive.HttpHandler;
