@@ -62,24 +62,24 @@
             <onMismatch>DENY</onMismatch>
         </filter>
 
-        <turboFilter class="ch.qos.logback.classic.turbo.DynamicThresholdFilter">
-            <DefaultThreshold>ERROR</DefaultThreshold>
-            <OnHigherOrEqual>ACCEPT</OnHigherOrEqual>
-            <OnLower>NEUTRAL</OnLower>
-            <Key>userRole</Key>
-            <MDCValueLevelPair>
-                <value>admin</value>
-                <level>DEBUG</level>
-            </MDCValueLevelPair>
-            <MDCValueLevelPair>
-                <value>dba</value>
-                <level>INFO</level>
-            </MDCValueLevelPair>
-            <MDCValueLevelPair>
-                <value>user</value>
-                <level>WARN</level>
-            </MDCValueLevelPair>
-        </turboFilter>
+<!--        <turboFilter class="ch.qos.logback.classic.turbo.DynamicThresholdFilter">-->
+<!--            <DefaultThreshold>ERROR</DefaultThreshold>-->
+<!--            <OnHigherOrEqual>ACCEPT</OnHigherOrEqual>-->
+<!--            <OnLower>NEUTRAL</OnLower>-->
+<!--            <Key>userRole</Key>-->
+<!--            <MDCValueLevelPair>-->
+<!--                <value>admin</value>-->
+<!--                <level>DEBUG</level>-->
+<!--            </MDCValueLevelPair>-->
+<!--            <MDCValueLevelPair>-->
+<!--                <value>dba</value>-->
+<!--                <level>INFO</level>-->
+<!--            </MDCValueLevelPair>-->
+<!--            <MDCValueLevelPair>-->
+<!--                <value>user</value>-->
+<!--                <level>WARN</level>-->
+<!--            </MDCValueLevelPair>-->
+<!--        </turboFilter>-->
     </appender>
 
     <!-- 系统模块日志级别控制  -->
