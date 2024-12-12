@@ -7,9 +7,7 @@ import com.example.common.core.util.sensitiveFilter.StringPointer;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayDeque;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 
 /**
  * 敏感词过滤器
@@ -25,6 +23,7 @@ public class SensitiveFilterByAC {
      *      ……
      */
     private static final String filePath = "C:\\Users\\lsw\\Desktop\\sensi_words.txt";
+    private static final String dataPath = "C:\\Users\\lsw\\Desktop\\testData.txt";
     public static SensitiveFilterByAC DEFAULT = new SensitiveFilterByAC(filePath);
 
     TreeNode treeRoot = new TreeNode(0);
@@ -135,9 +134,9 @@ public class SensitiveFilterByAC {
         // 是否已经匹配上 完整敏感词
         boolean isMatch = false;
         TreeNode tempNode = treeRoot;
-        for (int i = 0; i < content.length(); ) {
-            char c = content.charAt(i);
-            TreeNode treeNode = tempNode.getChildNode(c);
+        int i = 0;
+        while ( i < content.length()){
+            TreeNode treeNode = tempNode.getChildNode(content.charAt(i));
             // a. 匹配上,继续匹配子节点
             if (treeNode !=null ){
                 tempNode = treeNode;
@@ -150,27 +149,26 @@ public class SensitiveFilterByAC {
                         content.fill(i - tempNode.getHeight(),i,'*');
                     }
                 }
-                continue;
-            }
-            //b. 如果已经匹配到最长敏感词了，直接替换.进行下一次匹配
-            if (isMatch){
-                content.fill(i - tempNode.getHeight(),i,'*');
-                // 开始下一轮的匹配
-                tempNode = treeRoot;
-                isMatch = false;
-                continue;
-            }
-
-
-            if (tempNode != treeRoot){
-                // c. 本节点匹配失败且未找到敏感词，重定位到fail指针处尝试匹配
-                tempNode = tempNode.getFailPoint();
             }else {
                 // d. 根节点也无法匹配时，说明不是敏感词，继续遍历向下content
-                i++;
+                if(tempNode == treeRoot){
+                    i++;
+                }else {
+                    //b. 如果已经匹配到最长敏感词了，直接替换.进行下一次匹配
+                    if (isMatch){
+                        content.fill(i - tempNode.getHeight(),i,'*');
+                        // 开始下一轮的匹配
+                        tempNode = treeRoot;
+                        isMatch = false;
+
+                    }else {
+                        // c. 本节点匹配失败且未找到敏感词，重定位到fail指针处尝试匹配
+                        tempNode = tempNode.getFailPoint();
+                    }
+
+                }
+
             }
-
-
         }
 
         return content.toString();
@@ -217,12 +215,58 @@ public class SensitiveFilterByAC {
         return content.toString();
     }
 
-    public static void main(String[] args) {
+    /**
+     * AC自动机 执行时间： 307
+     * hash+树  执行时间： 33
+     * 靠！被爆杀了
+     * @param args
+     * @throws IOException
+     */
+    public static void main(String[] args) throws IOException {
 
 
         SensitiveFilterByAC aDefault = SensitiveFilterByAC.DEFAULT;
-        System.out.println(aDefault.filter(new StringPointer("shissa")));
-        System.out.println("hh");
+        SensitiveFilter filter1 = SensitiveFilter.DEFAULT;
+
+        List<String> dataList = new ArrayList<>();
+        //1. 构建前缀树
+        BufferedReader bf = new BufferedReader(new InputStreamReader(
+                new FileInputStream(dataPath)
+                //                    SensitiveFilter.class.getClassLoader().getResourceAsStream(filePath) // resource 目录下
+                , StandardCharsets.UTF_8));
+        String s;
+        while (StrUtil.isNotBlank(s = bf.readLine())) {
+            dataList.add(s);
+        }
+
+        dataList.forEach(v -> System.out.println(aDefault.filter(new StringPointer(v))));
+        dataList.forEach(v -> System.out.println(filter1.filter(v,'*')));
+
+
+        long startT2 = System.currentTimeMillis();
+
+        for (int i = 0; i < 1000; i++) {
+            dataList.forEach(v -> filter1.filter(v,'*'));
+        }
+        long end2 = System.currentTimeMillis();
+
+        System.out.println("hash+树  执行时间： " + (end2-startT2));
+
+
+        // 开始时间
+        long startT1 = System.currentTimeMillis();
+        // 30 * 10000
+        for (int i = 0; i < 10000; i++) {
+            dataList.forEach(v -> aDefault.filter(new StringPointer(v)));
+        }
+        long end1 = System.currentTimeMillis();
+
+        System.out.println("AC自动机 执行时间： " + (end1-startT1));
+
+
+
+
+
 
     }
 }
