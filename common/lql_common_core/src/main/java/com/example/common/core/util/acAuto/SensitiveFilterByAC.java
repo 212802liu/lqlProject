@@ -4,6 +4,7 @@ import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.example.common.core.util.sensitiveFilter.SensitiveFilter;
 import com.example.common.core.util.sensitiveFilter.StringPointer;
+import org.springframework.util.CollectionUtils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -43,8 +44,11 @@ public class SensitiveFilterByAC {
             String s;
             while (StrUtil.isNotBlank(s = bf.readLine())) {
 
-                char[] charArray = s.toCharArray();
+                if (StrUtil.isBlank(s.trim())){
+                    continue;
+                }
                 TreeNode tempNode = treeRoot;
+                char[] charArray = s.toCharArray();
                 for (int i = 0; i < charArray.length; i++) {
                     char c = charArray[i];
                     TreeNode childNode = tempNode.getChildNode(c);
@@ -145,7 +149,7 @@ public class SensitiveFilterByAC {
                     //匹配成功，但不一定是最长前缀敏感词！
                     isMatch = true;
                     // a1: 如果恰好匹配到content末尾，则可以直接替换
-                    if(i == content.length()){
+                    if(i == content.length() || CollectionUtils.isEmpty(treeNode.getChild())){
                         content.fill(i - tempNode.getHeight(),i,'*');
                     }
                 }
@@ -216,8 +220,8 @@ public class SensitiveFilterByAC {
     }
 
     /**
-     * AC自动机 执行时间： 307
-     * hash+树  执行时间： 33
+     * hash+树  执行时间： 977
+     * AC自动机 执行时间： 1798
      * 靠！被爆杀了
      * @param args
      * @throws IOException
@@ -239,13 +243,14 @@ public class SensitiveFilterByAC {
             dataList.add(s);
         }
 
-        dataList.forEach(v -> System.out.println(aDefault.filter(new StringPointer(v))));
-        dataList.forEach(v -> System.out.println(filter1.filter(v,'*')));
+//        dataList.forEach(v -> System.out.println(aDefault.filter(new StringPointer(v))));
+//        dataList.forEach(v -> System.out.println(filter1.filter(v,'*')));
 
 
+        int maxCount = 100000;
         long startT2 = System.currentTimeMillis();
 
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < maxCount; i++) {
             dataList.forEach(v -> filter1.filter(v,'*'));
         }
         long end2 = System.currentTimeMillis();
@@ -256,7 +261,7 @@ public class SensitiveFilterByAC {
         // 开始时间
         long startT1 = System.currentTimeMillis();
         // 30 * 10000
-        for (int i = 0; i < 10000; i++) {
+        for (int i = 0; i < maxCount; i++) {
             dataList.forEach(v -> aDefault.filter(new StringPointer(v)));
         }
         long end1 = System.currentTimeMillis();

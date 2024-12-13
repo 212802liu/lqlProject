@@ -200,7 +200,7 @@ public class SensitiveFilter implements Serializable{
                         /*
                          * 查出比剩余sentence小的最大的词。
                          * 例如剩余sentence为"色情电影哪家强？"，
-                         * 通过compare方法得到正序列表 。这个节点含三个词从小到大为："色情"、"色情电影"、"色情信息"。
+                         * 通过compare方法得到正序列表 。这个节点含三个词从小到大为："色情"、"色情信息"、"色情电影"。
                          * 但我们追求最大匹配。则从“色情电影”开始向前匹配
                          */
                         //
