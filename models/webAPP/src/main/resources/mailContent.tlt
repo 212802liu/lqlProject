@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+table{border-top:1px solid #333;border-left:1px solid #333;border-spacing:0;background-color:#fff;width:100%}
+table td{border-bottom:1px solid #333;border-right:1px solid #333;font-size:13px;padding:5px}
+.et8{color:rgb(0, 0, 0);text-align:left ;}
+.et10{color:rgb(0, 0, 0);text-align:center;}
+.et16{color:rgb(255, 0, 0);text-align:center;}
+.et17{color:rgb(0, 0, 0);text-align:left;}
+.et18{color:rgb(255, 0, 0);text-align:right;}
+.et2{color:rgb(0, 0, 0);text-align:center ;}
+.font3{color:rgb(255, 0, 0);}
+.et19{color:rgb(0, 0, 0);text-align:right ;}
+.et15{color:rgb(255, 0, 0);text-align:left;}
+.font0{color:rgb(0, 0, 0);}
+</style>
+</head>
+<body>
+    <table style="width:777.02pt">
+ <colgroup>
+  <col width="72" style="width:54.00pt;">
+  <col width="166" style="width:124.50pt;">
+  <col width="72" style="width:54.00pt;">
+  <col width="309" style="width:231.75pt;">
+  <col width="146" style="width:109.50pt;">
+  <col width="72" style="width:54.00pt;">
+  <col width="199" style="width:149.25pt;">
+ </colgroup>
+ <tbody>
+  <tr height="27">
+   <td colspan="2" class="et2">统计周期</td>
+   <td colspan="5" class="et2">${data.period}</td>
+  </tr>
+  <tr height="27">
+   <td colspan="2" class="et2">信托类别</td>
+   <td colspan="2" class="et10">微信</td>
+   <td colspan="3" class="et10">支付宝</td>
+  </tr>
+  <tr height="27">
+   <td rowspan="4" class="et2">授信</td>
+   <td class="et8">申请笔数</td>
+   <td colspan="2" class="et10">${data.weiXinPay.applyNum}</td>
+   <td colspan="3" class="et10">${data.zhiFuPay.applyNum}</td>
+  </tr>
+  <tr height="27">
+   <td class="et8">通过笔数</td>
+   <td colspan="2" class="et10">${data.weiXinPay.applyPassNum}</td>
+   <td colspan="3" class="et10">${data.zhiFuPay.applyPassNum}</td>
+  </tr>
+  <tr height="27">
+   <td class="et8">拒绝笔数</td>
+   <td colspan="2" class="et10">${data.weiXinPay.applyRefuseNum}</td>
+   <td colspan="3" class="et10">${data.zhiFuPay.applyRefuseNum}</td>
+  </tr>
+  <tr height="27">
+   <td  class="et8">拒绝原因枚举</td>
+   <td colspan="2"  class="et10">${data.weiXinPay.applyMsg}</td>
+   <td colspan="3"  class="et10">${data.zhiFuPay.applyMsg}</td>
+<!--    <td colspan="2" rowspan="4" class="et10">${data.weiXinPay.applyMsg}</td>
+   <td colspan="3" rowspan="4" class="et10">${data.zhiFuPay.applyMsg}</td>  -->
+  </tr>
+  <tr height="27">
+   <td rowspan="4" class="et2">用信</td>
+   <td class="et8">申请笔数</td>
+   <td colspan="2" class="et10">${data.weiXinPay.useNum}</td>
+   <td colspan="3" class="et10">${data.zhiFuPay.useNum}</td>
+  </tr>
+  <tr height="27">
+   <td class="et8">通过笔数</td>
+   <td colspan="2" class="et10">${data.weiXinPay.usePassNum}</td>
+   <td colspan="3" class="et10">${data.zhiFuPay.usePassNum}</td>
+  </tr>
+  <tr height="27">
+   <td class="et8">拒绝笔数</td>
+   <td colspan="2" class="et10">${data.weiXinPay.useRefuseNum}</td>
+   <td colspan="3" class="et10">${data.zhiFuPay.useRefuseNum}</td>
+  </tr>
+  <tr height="27">
+   <td class="et8">拒绝原因枚举</td>
+   <td colspan="2" class="et10">${data.weiXinPay.useMsg}</td>
+   <td colspan="3" class="et10">${data.zhiFuPay.useMsg}</td>
+  </tr>
+  <tr height="26">
+   <td class="et2" rowspan="${data.maxLength+1}" >放款</td>
+   <td class="et8">信托计划</td>
+   <td class="et15">笔数</td>
+   <td class="et16">金额</td>
+   <td class="et8">信托计划</td>
+   <td class="et15">笔数</td>
+   <td class="et16">金额</td>
+  </tr>
+  <#if data.maxLength != 0>
+  <#list 0..(data.maxLength - 1) as i>
+    <tr>
+
+        <td class="et7">${data.weiXinPay.weiXinPayLoanInfoList[i].subjectId!''}</td>
+        <td class="et15">${data.weiXinPay.weiXinPayLoanInfoList[i].num!''}</td>
+        <td class="et14">${data.weiXinPay.weiXinPayLoanInfoList[i].loanAmt!''}</td>
+        <td class="et7">${data.zhiFuPay.zhiFuPayLoanInfoList[i].subjectId!''}</td>
+        <td class="et16">${data.zhiFuPay.zhiFuPayLoanInfoList[i].num!''}</td>
+        <td class="et14">${data.zhiFuPay.zhiFuPayLoanInfoList[i].loanAmt!''}</td>
+
+    </tr>
+  </#list>
+  </#if>
+
+  <#if data.maxLength = 0>
+    <tr>
+        <td class="et7" ></td>
+        <td class="et15"></td>
+        <td class="et14"></td>
+        <td class="et7" ></td>
+        <td class="et16"></td>
+        <td class="et14"></td>
+    </tr>
+  </#if>
+
+ </tbody>
+</table>
+</body>
+</html>

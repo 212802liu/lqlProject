@@ -20,7 +20,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import java.io.IOException;
@@ -28,6 +30,22 @@ import java.time.Duration;
 
 //@SpringBootTest
 class WebAppApplicationTests {
+
+
+    @Test
+    void testYYYY() {
+        // 创建一个日期：2023 年 12 月 31 日
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2023, Calendar.DECEMBER, 31, 23, 59, 59);
+
+        // 创建两种不同的日期格式
+        SimpleDateFormat yyyyFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat YYYYFormat = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
+
+        // 格式化输出
+        System.out.println("yyyy-MM-dd HH:mm:ss: " + yyyyFormat.format(calendar.getTime())); // 2023-12-31 23:59:59
+        System.out.println("YYYY-MM-DD HH:mm:ss: " + YYYYFormat.format(calendar.getTime())); // 2024-12-31 23:59:59
+    }
 
     @Test
     void contextLoad() throws InterruptedException {

@@ -31,6 +31,9 @@ spring:
           - dataId: redis-dev.yml
             group: DEFAULT_GROUP
             refresh: true
+          - dataId: jyDB-mysql-dev.yaml
+            group: DEFAULT_GROUP
+            refresh: true
 
 # springdoc配置   http://server:port/context-path/swagger-ui.html 本服务文档
 springdoc:

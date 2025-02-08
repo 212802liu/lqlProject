@@ -1,6 +1,5 @@
-package com.example.common.core.util.acAuto;
+package com.example.common.core.util.sensitiveFilter.acAuto;
 
-import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
 import com.example.common.core.util.sensitiveFilter.SensitiveFilter;
 import com.example.common.core.util.sensitiveFilter.StringPointer;

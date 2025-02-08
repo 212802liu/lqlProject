@@ -3,7 +3,7 @@ package com.example.common.security.service;
 import cn.hutool.core.lang.UUID;
 import com.example.common.core.constant.SecurityConstants;
 import com.example.common.core.entity.user.LoginUser;
-import com.example.common.core.util.JwtUtils;
+import com.example.common.core.util.security.JwtUtils;
 import com.example.common.redis.service.RedisClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

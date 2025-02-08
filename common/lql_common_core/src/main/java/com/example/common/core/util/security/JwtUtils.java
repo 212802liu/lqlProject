@@ -1,4 +1,4 @@
-package com.example.common.core.util;
+package com.example.common.core.util.security;
 
 import java.util.HashMap;
 import java.util.Map;

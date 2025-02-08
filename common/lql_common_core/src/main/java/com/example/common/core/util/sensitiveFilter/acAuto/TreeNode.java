@@ -1,12 +1,8 @@
-package com.example.common.core.util.acAuto;
+package com.example.common.core.util.sensitiveFilter.acAuto;
 
-import cn.hutool.core.util.StrUtil;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Data
@@ -18,6 +14,9 @@ public class TreeNode {
      * 只是debug时，能方便知道在哪个节点上
      */
     private char value;
+    /**
+     * 记录节点树的高度
+     */
     private int height;
 
     // 关键词结束标志
@@ -26,6 +25,9 @@ public class TreeNode {
 
     private TreeNode failPoint;
 
+    /**
+     * 孩子节点用HashMap存储，能够在O(1)的时间内查找到，效率高
+     */
     private Map<Character,TreeNode> child = new HashMap<>();
 
     public TreeNode() {

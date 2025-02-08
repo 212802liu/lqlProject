@@ -2,7 +2,7 @@ package com.example.jyDB.config;
 
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.druid.pool.DruidDataSource;
-import com.example.common.core.util.SecureUtils;
+import com.example.common.core.util.security.SecureUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;

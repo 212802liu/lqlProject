@@ -8,6 +8,7 @@ import reactor.core.publisher.BaseSubscriber;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.SignalType;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
@@ -24,6 +25,11 @@ import java.util.stream.Stream;
  */
 
 public class ReactorDemo1 {
+    @Test
+    void tt(){
+        System.out.println(File.separator);
+        System.out.println(File.separatorChar);
+    }
     /**
      * - just()：
      *

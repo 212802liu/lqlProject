@@ -157,7 +157,7 @@ public class StringPointer implements Serializable, CharSequence, Comparable<Str
 
     /**
      * NavigableSet  需要排序，前缀相同则 字长有限。
-     * eg："色情"、"色情电影"、"色情信息"   排序完后 ->  "色情电影"、"色情信息"、"色情"
+     * eg："色情"、"色情电影"、"色情信息"   排序完后 -> "色情" 、"色情信息"、"色情电影"
      *
      * @param that the object to be compared.
      * @return
