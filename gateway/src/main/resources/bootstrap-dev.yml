@@ -44,6 +44,12 @@ spring:
           uri: lb://lql-web # 路由的目的地，lb是负载均衡，后面跟服务名称
           predicates: # 路由断言，也就是判断是否符合路由规则的条件
             - Path=/webapi/** # path 按照路径进行匹配，只要以/order-service/开头就符合规则
+        - id: auth # 路由id, 自定义，唯一即可
+          # uri: 127.0.0.1:/order # - 路由目的地，支持lb和http两种
+          uri: lb://lql-auth # 路由的目的地，lb是负载均衡，后面跟服务名称
+          predicates: # 路由断言，也就是判断是否符合路由规则的条件
+            - Path=/auth/** # path 按照路径进行匹配，只要以/order-service/开头就符合规则
+
 
 #          filters:
 #            - StripPrefix=1 # 过滤器，去除请求的前缀路径，StripPrefix=1 表示去除请求路径的第一个路径片段
@@ -51,3 +57,13 @@ security:
   captcha:
     enabled: true
     type: char
+    # 不校验白名单
+  ignore:
+    whites:
+      - /auth/logout
+      - /auth/login
+      - /auth/Captcha/.*
+      - /auth/register
+      - /*/v2/api-docs
+      - /*/v3/api-docs
+      - /csrf

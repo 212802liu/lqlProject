@@ -26,7 +26,7 @@ public class LoginServiceImpl implements LoginService {
 
         // 数据库
         //模拟查询数据库 无数据
-        ResponseEnum.LICENCE_NOT_FOUND.assertNotNull(null);
+//        ResponseEnum.LICENCE_NOT_FOUND.assertNotNull(null);
 
         //验证码 ； 成功后作废
         String code =  redisClient.get(CommonRedisConstants.PREFIX_REDIS_CAPTCHA + loginBody.getUuid());

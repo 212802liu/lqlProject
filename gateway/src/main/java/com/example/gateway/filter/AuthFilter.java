@@ -3,6 +3,7 @@ package com.example.gateway.filter;
 import cn.hutool.core.util.StrUtil;
 import com.example.common.core.constant.CommonRedisConstants;
 import com.example.common.core.constant.TokenConstants;
+import com.example.common.core.util.ServletUtils;
 import com.example.common.core.util.security.JwtUtils;
 import com.example.common.redis.service.RedisClient;
 import com.example.gateway.config.properties.IgnoreWhiteProperties;
@@ -13,7 +14,9 @@ import org.springframework.cloud.context.environment.EnvironmentChangeEvent;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -41,7 +44,7 @@ import java.util.stream.Collectors;
  * 或者  , ApplicationListener<EnvironmentChangeEvent>
  * 你可以监听 EnvironmentChangeEvent，在配置更新时手动刷新正则表达式列表。
  */
-//@Component
+@Component
 @Slf4j
 public class AuthFilter implements GlobalFilter,Ordered {
     /**
@@ -109,17 +112,16 @@ public class AuthFilter implements GlobalFilter,Ordered {
         mutate.header(name, valueEncode);
     }
 
-    private Mono<Void> unauthorizedResponse(ServerWebExchange exchange, String s) {
+    private Mono<Void> unauthorizedResponse(ServerWebExchange exchange, String msg) {
         log.error("[鉴权异常处理]请求路径:{}", exchange.getRequest().getPath());
-        return null;
-//        return ServletUtils.webFluxResponseWriter(exchange.getResponse(), msg, HttpStatus.UNAUTHORIZED);
+        return ServletUtils.webFluxResponseWriter(exchange.getResponse(), msg, HttpStatus.UNAUTHORIZED.value());
     }
 
 
 
     @Override
     public int getOrder() {
-        return 0;
+        return -3;
     }
 
     private String getToken(ServerHttpRequest request) {

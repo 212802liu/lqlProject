@@ -396,14 +396,15 @@ public class ReactorDemo2 {
     void paralleFlux() throws IOException {
         // 百万数据，8个线程，每个线程处理100，进行分批处理一直处理结束
 
-        Flux.range(1,100)
+        Flux.merge(Flux.range(1,25),Flux.range(75,100),Flux.range(25,75))
+//        Flux.range(1,100)
                 .buffer(10)
                 .parallel(8)
                 .runOn(Schedulers.newParallel("yy"))
                 .log()
                 .flatMap(list->Flux.fromIterable(list))
                 .collectSortedList(Integer::compareTo)
-                .subscribe();
+                .subscribe(System.out::println);
 
 
         System.in.read();

@@ -215,6 +215,7 @@ public class ReactorDemo1 {
     /**
      *  有点像map
      */
+    @Test
     public void handle(){
         Flux<String> alphabet = Flux.just(65, 66, 32, 9, 99)
                 .handle((i, sink) -> {

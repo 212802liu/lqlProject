@@ -24,8 +24,7 @@ public class LoginController {
     private LoginService loginService;
     @PostMapping("/login")
     private AjaxResult login(@Validated @RequestBody LoginBody loginBody){
-        AjaxResult ajaxResult = new AjaxResult();
-        ajaxResult = loginService.login(loginBody);
+        AjaxResult ajaxResult = loginService.login(loginBody);
         return ajaxResult;
     }
 }
