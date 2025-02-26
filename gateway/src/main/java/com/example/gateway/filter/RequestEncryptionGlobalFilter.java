@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -31,18 +32,21 @@ import reactor.core.publisher.Mono;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
+/**
+ * 参考 ModifyRequestBodyGatewayFilterFactory
+ */
 @Slf4j
-//@Component
+@Component
+@AllArgsConstructor
 public class RequestEncryptionGlobalFilter implements GlobalFilter, Ordered {
 
-//    @Autowired
     private ObjectMapper objectMapper;
 
     private final List<HttpMessageReader<?>> messageReaders = HandlerStrategies.withDefaults().messageReaders();
 
     @Override
     public int getOrder() {
-        return -2;
+        return -3;
     }
 
     @Override
@@ -72,7 +76,7 @@ public class RequestEncryptionGlobalFilter implements GlobalFilter, Ordered {
                 DataBufferUtils.release(dataBuffer);
                 String text = new String(bytes, StandardCharsets.UTF_8);
                 JsonNode jsonNode = readNode(text);
-                JsonNode payload = jsonNode.get("payload");
+                JsonNode payload = jsonNode.get("password");
                 String payloadText = payload.asText();
                 byte[] content = SecureUtils.decryption(payloadText);
                 String requestBody = new String(content, StandardCharsets.UTF_8);
@@ -108,9 +112,9 @@ public class RequestEncryptionGlobalFilter implements GlobalFilter, Ordered {
 
     private void rewritePayloadNode(String text, JsonNode root) {
         try {
-            JsonNode node = objectMapper.readTree(text);
+//            JsonNode node = objectMapper.readTree(text);
             ObjectNode objectNode = (ObjectNode) root;
-            objectNode.set("payload", node);
+            objectNode.set("password", new TextNode(text));
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }
@@ -119,7 +123,7 @@ public class RequestEncryptionGlobalFilter implements GlobalFilter, Ordered {
     private void setPayloadTextNode(String text, JsonNode root) {
         try {
             ObjectNode objectNode = (ObjectNode) root;
-            objectNode.set("payload", new TextNode(text));
+            objectNode.set("password", new TextNode(text));
         } catch (Exception e) {
             throw new IllegalStateException(e);
         }

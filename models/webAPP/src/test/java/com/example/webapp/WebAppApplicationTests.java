@@ -1,15 +1,21 @@
 package com.example.webapp;
 
 import com.alibaba.nacos.common.http.HttpUtils;
+import com.example.jyDB.domain.JyViraccAgreementStatus;
+import com.example.jyDB.mapper.JyViraccAgreementStatusMapper;
 import com.example.webapp.demos.entity.Book;
 import com.example.webapp.demos.entity.User;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.netty.handler.codec.http.HttpUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.platform.commons.util.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -28,8 +34,30 @@ import java.util.List;
 import java.io.IOException;
 import java.time.Duration;
 
-//@SpringBootTest
+@SpringBootTest
+@Slf4j
 class WebAppApplicationTests {
+
+
+    @Autowired
+    JyViraccAgreementStatusMapper jyViraccAgreementStatusMapper;
+    @Test
+    @Transactional(transactionManager = "jyTransactionManager", propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
+    void testDataBase(){
+        JyViraccAgreementStatus viraccAgreementStatus = jyViraccAgreementStatusMapper.selectByPrimaryKey("TS1311006957671891010GGL");
+        // 0
+        log.info("更新前："+viraccAgreementStatus.getIdType());
+        JyViraccAgreementStatus v = new JyViraccAgreementStatus();
+        v.setId(viraccAgreementStatus.getId());
+        v.setIdType("2");
+        jyViraccAgreementStatusMapper.updateByPrimaryKeySelective(v);
+
+        viraccAgreementStatus = jyViraccAgreementStatusMapper.selectByPrimaryKey("TS1311006957671891010GGL");
+        // 2
+        log.info("更新后："+viraccAgreementStatus.getIdType());
+
+
+    }
 
 
     @Test

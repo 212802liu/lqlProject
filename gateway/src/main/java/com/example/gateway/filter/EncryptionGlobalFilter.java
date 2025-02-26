@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.node.TextNode;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +16,13 @@ import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferFactory;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.http.server.reactive.ServerHttpResponseDecorator;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -34,10 +37,10 @@ import java.nio.charset.StandardCharsets;
  * 解决方案： 参考： ModifyRequestBodyGatewayFilterFactory 和 ModifyResponseBodyGatewayFilterFactory
  */
 @Slf4j
-@Component
+//@Component
+@AllArgsConstructor
 public class EncryptionGlobalFilter implements GlobalFilter, Ordered {
 
-    @Autowired
     private ObjectMapper objectMapper;
 
 
@@ -70,7 +73,7 @@ public class EncryptionGlobalFilter implements GlobalFilter, Ordered {
 //        }
         DataBufferFactory bufferFactory = exchange.getResponse().bufferFactory();
         ServerHttpRequestDecorator requestDecorator = processRequest_improve(request, bufferFactory);
-        ServerHttpResponseDecorator responseDecorator = processResponse(response, bufferFactory);
+        ServerHttpResponseDecorator responseDecorator = processResponse_improve(response, bufferFactory);
         return chain.filter(exchange.mutate().request(requestDecorator).response(responseDecorator).build());
     }
 
@@ -130,6 +133,7 @@ public class EncryptionGlobalFilter implements GlobalFilter, Ordered {
     private ServerHttpRequestDecorator processRequest_improve(ServerHttpRequest request, DataBufferFactory bufferFactory) {
         // 将请求体处理逻辑缓存，确保只消费一次
         Mono<DataBuffer> processedBody = DataBufferUtils.join(request.getBody())
+                // 通过 flatMap 确保在数据完全加载后才执行后续逻辑。
                 .flatMap(dataBuffer -> {
                     try {
                         // 读取原始数据
@@ -173,6 +177,7 @@ public class EncryptionGlobalFilter implements GlobalFilter, Ordered {
 
             @Override
             public Flux<DataBuffer> getBody() {
+                //  Flux.from(processedBody)。
                 return processedBody.flux(); // 将 Mono 转换为 Flux
             }
         };
@@ -202,9 +207,49 @@ public class EncryptionGlobalFilter implements GlobalFilter, Ordered {
         };
     }
 
+    private ServerHttpResponseDecorator processResponse_improve(ServerHttpResponse response, DataBufferFactory bufferFactory) {
+        return new ServerHttpResponseDecorator(response) {
+            @Override
+            public Mono<Void> writeWith(Publisher<? extends DataBuffer> body) {
+                if (body instanceof Flux) {
+                    Flux<? extends DataBuffer> flux = (Flux<? extends DataBuffer>) body;
+
+                    // 聚合所有 DataBuffer 为单个处理
+                    return DataBufferUtils.join(flux)
+                            .flatMap(buffer -> {
+                                try {
+                                    // 读取完整响应内容
+                                    String originalContent = buffer.toString(StandardCharsets.UTF_8);
+                                    JsonNode jsonNode = readNode(originalContent);
+
+                                    // 修改密码字段
+                                    JsonNode payload = jsonNode.get("password");
+                                    if (payload != null) {
+                                        String encrypted = SecureUtils.encryptionWithAES(payload.asText());
+                                        ((ObjectNode) jsonNode).put("password", encrypted);
+                                        log.info("修改响应体payload,修改前:{},修改后:{}", payload.asText(), encrypted);
+                                    }
+
+                                    // 生成新数据
+                                    byte[] newBytes = jsonNode.toString().getBytes(StandardCharsets.UTF_8);
+                                    DataBuffer newBuffer = bufferFactory.wrap(newBytes);
+                                    DataBufferUtils.release(buffer); // 释放原 buffer
+
+                                    // 写入新数据
+                                    return super.writeWith(Mono.just(newBuffer));
+                                } catch (Exception e) {
+                                    DataBufferUtils.release(buffer);
+                                    log.error("处理响应体失败", e);
+                                    return Mono.error(new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "网关处理响应失败"));
+                                }
+                            });
+                }
+                return super.writeWith(body);
+            }
+        };
+    }
     private void rewritePayloadNode(String text, JsonNode root) {
         try {
-            text = "hhh";
             TextNode node = objectMapper.getNodeFactory().textNode(text);
             ObjectNode objectNode = (ObjectNode) root;
             objectNode.set("password", node);
