@@ -86,7 +86,7 @@ public class ResponseDecryptionGlobalFilter implements GlobalFilter, Ordered {
                 String originalResponseContentType = exchange.getAttribute(ORIGINAL_RESPONSE_CONTENT_TYPE_ATTR);
                 HttpHeaders httpHeaders = new HttpHeaders();
                 httpHeaders.add(HttpHeaders.CONTENT_TYPE, originalResponseContentType);
-                ResponseAdapter responseAdapter = new ResponseAdapter(body, httpHeaders);
+//                ResponseAdapter responseAdapter = new ResponseAdapter(body, httpHeaders);
 
                 ClientResponse clientResponse = prepareClientResponse(exchange,body, httpHeaders);
 

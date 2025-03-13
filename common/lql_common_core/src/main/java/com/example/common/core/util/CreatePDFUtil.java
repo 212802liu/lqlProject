@@ -329,16 +329,19 @@ public class CreatePDFUtil {
                 table.setTotalWidth(PageSize.A4.getWidth());//总宽度为A4纸张宽度
                 table.setLockedWidth(true);//锁定列宽
                 table.setWidths(new int[]{50, 50});//设置每列宽度
+                // 左单元格：当前页码（如"第1页，共"）
                 PdfPCell cell = new PdfPCell(new Phrase("第"+document.getPageNumber() + " 页，共", font));
                 cell.setHorizontalAlignment(Element.ALIGN_RIGHT);//设置水平右对齐
                 cell.setVerticalAlignment(Element.ALIGN_MIDDLE);//设置垂直居中
                 cell.disableBorderSide(15);//隐藏全部边框
                 table.addCell(cell);
+                // 右单元格：总页数占位符（通过Image实例化模板）
                 PdfPCell cell1 = new PdfPCell(Image.getInstance(totalPage));//共 页
                 cell1.setHorizontalAlignment(Element.ALIGN_LEFT);//设置水平左对齐
                 cell1.setVerticalAlignment(Element.ALIGN_MIDDLE);//设置垂直居中
                 cell1.disableBorderSide(15);//隐藏全部边框
                 table.addCell(cell1);
+                // 将表格写入页脚位置（坐标原点为页面左下角）
                 table.writeSelectedRows(0, -1, 0, 30, writer.getDirectContent());
             } catch (Exception e) {
                 throw new ExceptionConverter(e);
@@ -346,7 +349,7 @@ public class CreatePDFUtil {
         }
 
         /**
-         * 文档关闭时获取最终总页数，填充占位符。
+         * 文档关闭时获取最终总页数，填充总页数到模板
          * @param writer the <CODE>PdfWriter</CODE> for this document
          * @param document the document
          */
