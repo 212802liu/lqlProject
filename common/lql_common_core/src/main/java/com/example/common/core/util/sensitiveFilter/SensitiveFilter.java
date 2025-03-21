@@ -13,8 +13,8 @@ import java.util.NavigableSet;
  *
  * 原理：
  * 1.使用hash前两个字符进行分桶，散列在一个长数组中
- * 2. 使用前两个字符的相加为int值，作为区别。相同：则在同一个 node.words .  不同：则匹配下一个node的int值或新增一个node
- * 3. 数据结构： 数字 + 链表（节点内部使用TreeSet 串联相同词根的敏感词）
+ * 2. 使用前两个字符的位运算 得到一个int值，作为区别。相同：则在同一个 node.words（如 ：黄色av，黄色电影） .  不同：则匹配下一个node的int值或新增一个node (暴力->[…])
+ * 3. 数据结构： 数组 + 链表（节点内部使用TreeSet 串联相同词根的敏感词）
  */
 public class SensitiveFilter implements Serializable{
 
